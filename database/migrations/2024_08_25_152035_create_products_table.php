@@ -18,8 +18,8 @@ return new class extends Migration
             $table->decimal('price', 8, 2); // Price, with 8 digits total and 2 decimal places
             $table->integer('quantity'); // Quantity available
             $table->decimal('weight', 8, 2)->nullable(); // Weight, with 8 digits total and 2 decimal places, nullable in case it's optional
-//            $table->unsignedBigInteger('category_id'); // Foreign key for categories
             $table->enum('status', ['active', 'inactive'])->default('active'); // Status field with 'active' or 'inactive' options
+            $table->foreignId('category_id')->nullable()->references('id')->on('categories');
             $table->timestamps(); // created_at and updated_at timestamps
         });
     }

@@ -14,14 +14,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-//            CategorySeeder::class,
+            CategorySeeder::class,
             ProductSeeder::class,
 //            UserSeeder::class
-
         ]);
-//        User::factory()->create([
-//            'name' => 'admin',
-//            'email' => 'admin@arter.com',
-//        ]);
     }
 }

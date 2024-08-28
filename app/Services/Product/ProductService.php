@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Product;
 
 use App\Models\Product;
+use App\Traits\FileManager;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 
 
 class ProductService implements ProductServiceInterface
 {
+    use FileManager;
+
     /**
      * Get all products with 'created_from' column.
      *
@@ -31,6 +34,8 @@ class ProductService implements ProductServiceInterface
     {
         if (!$product->update($data))
             throw new Exception('the product could not be created');
+
+
         return $product;
     }
 
@@ -38,13 +43,16 @@ class ProductService implements ProductServiceInterface
      * Create a new product.
      *
      * @param mixed $data
+     * @param $imageFiles
      * @return Product
      * @throws Exception
      */
-    public function createProduct(array $data): Product
+    public function createProduct(array $data , $imageFiles): Product
     {
         if (!$product = Product::create($data))
             throw new Exception('the product could not be created');
+        if (!empty($imageFiles))
+            $this->morphUploadImages($product,'images' , $imageFiles , "products");
         return $product;
     }
 

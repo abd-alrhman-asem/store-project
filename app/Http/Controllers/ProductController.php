@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
-use App\Services\ProductServiceInterface;
+use App\Services\Product\ProductServiceInterface;
 use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
-    protected ProductServiceInterface  $productService;
+    protected ProductServiceInterface $productService;
 
     /**
      * pass the interface to the controller
@@ -30,7 +30,7 @@ class ProductController extends Controller
     public function index(): JsonResponse
     {
         $products = $this->productService->getAllProducts();
-        return  success($products);
+        return success($products);
     }
 
     /**
@@ -41,9 +41,11 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request): JsonResponse
     {
-        $product = $this->productService->createProduct($request->validated());
+        $imageFiles = $request->file('images', []);
 
-        return resourceCreatedResponse("Product created successfully" , $product);
+        $product = $this->productService->createProduct($request->validated(), $imageFiles);
+
+        return resourceCreatedResponse("Product created successfully", $product);
     }
 
     /**
@@ -68,7 +70,7 @@ class ProductController extends Controller
     {
         $updatedProduct = $this->productService->updateProduct($product, $request->validated());
 
-        return success($updatedProduct,"Product updated successfully");
+        return success($updatedProduct, "Product updated successfully");
     }
 
     /**
@@ -80,6 +82,6 @@ class ProductController extends Controller
     public function destroy(Product $product): JsonResponse
     {
         $this->productService->deleteProduct($product);
-        return success(msg:'Product deleted successfully');
+        return success(msg: 'Product deleted successfully');
     }
 }

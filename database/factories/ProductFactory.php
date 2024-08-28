@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,7 +24,7 @@ class ProductFactory extends Factory
             'price' => $this->faker->randomFloat(2, 10, 100),
             'quantity' => $this->faker->numberBetween(1, 100),
             'weight' => $this->faker->randomFloat(2, 0.5, 10),
-           // 'category_id'=> Category::inRandomOrder()->first()->id, // assuming category_id references an existing category
+            'category_id'=> Category::inRandomOrder()->first()->id, // assuming category_id references an existing category
             'status' => $this->faker->randomElement(['active', 'inactive']),
         ];
     }

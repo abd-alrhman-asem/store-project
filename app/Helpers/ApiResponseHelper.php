@@ -18,7 +18,7 @@ if (!function_exists('_response')) {
     function _response(
         bool                     $success,
         object|array|null|string $data,
-        array|null               $msg,
+        array|null|string        $msg,
         int                      $statusCode = Response::HTTP_OK,
         ?array                   $meta = [],
     ): JsonResponse
@@ -105,7 +105,7 @@ if (!function_exists('loggedInSuccessfully')) {
                 'message' => $message ?? 'user logged in successfully ',
                 'access_token' => $token,
                 'token_type' => 'bearer',
-                'expires_in' => $expiresIn ,
+                'expires_in' => $expiresIn,
             ],
         );
     }
@@ -144,9 +144,9 @@ if (!function_exists('resourceCreatedResponse')) {
     ): JsonResponse
     {
         return success(
-            $data,
-            $message ?: 'resource created successfully.',
-            Response::HTTP_CREATED
+            data: $data,
+            msg: $message ?: 'resource created successfully.',
+            statusCode: Response::HTTP_CREATED
         );
     }
 }
